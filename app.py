@@ -8,6 +8,7 @@ from forms import RegistrationForm, LoginForm
 from sqlalchemy.exc import IntegrityError, PendingRollbackError
 import os
 import gunicorn
+from flask_wtf.csrf import CSRFProtect
 
 
 SECRET_KEY = os.urandom(32)
@@ -24,6 +25,8 @@ app.app_context().push()
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+csrf = CSRFProtect(app)
 
 
 class User(UserMixin, db.Model):
