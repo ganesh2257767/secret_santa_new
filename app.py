@@ -7,6 +7,7 @@ from datetime import datetime
 from forms import RegistrationForm, LoginForm
 from sqlalchemy.exc import IntegrityError
 import os
+import gunicorn
 
 
 SECRET_KEY = os.urandom(32)
@@ -91,5 +92,5 @@ def logout():
     flash("Logged out successfully.", "info")
     return redirect(url_for('login'))
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     gunicorn app:app
