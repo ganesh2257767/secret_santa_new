@@ -15,7 +15,7 @@ SECRET_KEY = os.urandom(32)
 app = Flask(__name__)
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:cAII3XUWDR7bO2MeDXA7@containers-us-west-100.railway.app:5710/railway"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:cAII3XUWDR7bO2MeDXA7@containers-us-west-100.railway.app:5710/railway"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -92,5 +92,5 @@ def logout():
     flash("Logged out successfully.", "info")
     return redirect(url_for('login'))
 
-# if __name__ == '__main__':
-#     gunicorn app:app
+if __name__ == '__main__':
+    app.run(debug=True)
