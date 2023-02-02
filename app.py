@@ -5,7 +5,7 @@ from flask_login import LoginManager, UserMixin, login_user, current_user, login
 import os
 from datetime import datetime
 from forms import RegistrationForm, LoginForm
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, PendingRollbackError
 import os
 import gunicorn
 
@@ -65,9 +65,11 @@ def register():
         db.session.add(user)
         try:
             db.session.commit()
-        except IntegrityError as e:
+        except IntegrityError:
             flash("User with this Email ID  or Employee ID is already registered.", category="danger")
             return redirect(url_for('register'))
+        except PendingRollbackError:
+            db.session.rollback()
             
         flash(f'{form.first_name.data.title()} {form.last_name.data.title()} registered successfully. Thank you.', category="success") 
         return redirect(url_for('register'))
@@ -78,7 +80,10 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email = form.email.data).first()
+        try:
+            user = User.query.filter_by(email = form.email.data).first()
+        except PendingRollbackError:
+            db.session.rollback()
         if user is not None:
             login_user(user)
             return redirect(url_for('dashboard'))
