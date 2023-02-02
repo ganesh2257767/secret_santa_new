@@ -84,10 +84,11 @@ def login():
             user = User.query.filter_by(email = form.email.data).first()
         except PendingRollbackError:
             db.session.rollback()
-        if user is not None:
-            login_user(user)
-            return redirect(url_for('dashboard'))
-        flash('Invalid Email Address or Password.', 'danger')    
+        else:
+            if user is not None:
+                login_user(user)
+                return redirect(url_for('dashboard'))
+            flash('Invalid Email Address or Password.', 'danger')    
     return render_template('login.html', form=form)
 
 
