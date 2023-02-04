@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container my-4 col-md-6 px-3 py-3">
+<div class="container-fluid my-4 col-md-6 px-3 py-3" style="border:solid 1px black">
+   <h3 class="text-center mb-3">Only for Admins to see participants and their gifts!</h3>
    <form action="" method="POST" class="row g-3 needs-validation" novalidate>
 
       {{ form.hidden_tag() }}
 
-      <div class="row mb-3">
+      <div class="row mb-3 mt-3">
 
          <!-- Email ID -->
-         <div class="col col-md-4">
+         <div class="col col-md-6 mx-auto my-auto">
             <label for="email" class="form-label">Email ID</label>
             <div class="input-group has-validation">
                <span class="input-group-text" id="inputGroupPrepend">@</span>
@@ -23,7 +24,7 @@
          </div>
 
          <!-- Password -->
-         <div class="col col-md-4">
+         <div class="col col-md-6 mx-auto my-auto">
             <label for="password" class="form-label">Password</label>
             {{ form.password(class_="form-control", id_="password") }}
             {% for error in form.password.errors %}
@@ -34,20 +35,9 @@
          </div>
       </div>
 
-      <!-- Remember me -->
-      <div class="row mb-3">
-         <div class="col">
-            {{ form.remember() }} {{ form.remember.label }}
-            {% for error in form.remember.errors %}
-            <div class="text-danger">
-               {{ error }}
-            </div>
-            {% endfor %}
-         </div>
-      </div>
 
       <div class="row mb-3">
-         <div class="col-md-4">
+         <div class="col-md-1  mx-auto my-auto">
             {{ form.submit(class_="btn btn-primary") }}
          </div>
       </div>
