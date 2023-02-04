@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
-# from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from datetime import datetime
 from forms import RegistrationForm, LoginForm
 from sqlalchemy.exc import IntegrityError, PendingRollbackError
@@ -91,17 +91,18 @@ class Gift(db.Model):
     
     def __repr__(self):
         return f"""Gift from: {self.user_id.email_id}"""
-    
-    # def set_password(self, password):
-    #     self.password_hash = generate_password_hash(password)
 
-    # def check_password(self,password):
-    #     return check_password_hash(self.password_hash,password)
+
+class Admin(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(150), unique = True, index = True)
+    password = db.Column(db.String(150), index = True)
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)
+    return Admin.query.get(user_id)
+
 
 @app.route('/dashboard')
 @login_required
@@ -132,7 +133,6 @@ def register():
         try:
             db.session.commit()
         except IntegrityError as e:
-            print(e)
             flash("User with this Email ID  or Employee ID is already registered.", category="danger")
             return redirect(url_for('register'))
         except PendingRollbackError:
@@ -148,12 +148,12 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         try:
-            user = User.query.filter_by(email = form.email.data).first()
+            admin = Admin.query.filter_by(email = form.email.data).first()
         except PendingRollbackError:
             db.session.rollback()
         else:
-            if user is not None:
-                login_user(user)
+            if admin is not None and check_password_hash(admin.password, form.password.data):
+                login_user(admin)
                 return redirect(url_for('dashboard'))
             flash('Invalid Email Address or Password.', 'danger')    
     return render_template('login.html', form=form)

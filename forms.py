@@ -12,10 +12,9 @@ class RegistrationForm(FlaskForm):
     last_name = StringField('Last Name', validators = [InputRequired(), DataRequired()])
     email = StringField('Email', validators= [InputRequired(), DataRequired(), Email(), Regexp(regex="^[a-zA-Z]+[.][a-zA-Z]+[0-9]*@?(amdocs)\\.com$", message="Email should be of the format 'Name.Surname@Amdocs.com'")])
     address = StringField('Address',
-                          validators=[DataRequired()], default='A-24, Karan Gharonda, Sainikwadi, Vadgaonsheri, Pune 411014')
+                          validators=[DataRequired()])
     mobile_number = StringField('Mobile Number',
-                                 validators=[DataRequired(), Length(min=10, max=10), Regexp('\d{10}', message='Only 10 digit numbers')],
-                                 default='9595959700')
+                                 validators=[DataRequired(), Length(min=10, max=10), Regexp('\d{10}', message='Only 10 digit numbers')])
     gift_image = FileField('Upload gift image', validators=[InputRequired(), DataRequired()])
     submit = SubmitField('Register')
 

@@ -14,15 +14,10 @@ function drop(ev) {
   child = document.getElementById(data);
   var steals = parseInt(ev.target.parentElement.nextElementSibling.innerHTML); // Steals TD
   var parentTD = ev.target.parentElement;
-  console.log(parentTD);
   if (ev.target.nodeName == 'DIV') {
     if (child.getAttribute('data-from') == 'assign-gift' && steals <= 1) {
       ev.target.appendChild(child);
       ev.target.parentElement.nextElementSibling.innerHTML = steals + 1;
-      // var input = document.createElement('input');
-      // input.type = "hidden";
-      // input.name = child.getAttribute('src');
-      // parentTD.appendChild(document.createElement(input));
       child.removeAttribute("style");
     }
     else if (child.getAttribute('data-from') == 'gift-data') {
@@ -30,10 +25,7 @@ function drop(ev) {
       var input = document.createElement("input");
       input.type = "hidden";
       input.name = "from";
-      // var source_data = child.getAttribute('src').split(',')[1];
-      // console.log("Source data", source_data);
       input.value = child.getAttribute('data-gift-from');
-      console.log("Gift from", child.getAttribute('data-gift-from'))
       parentTD.appendChild(input);
       child.removeAttribute("style");
     }
