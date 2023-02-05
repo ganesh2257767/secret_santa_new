@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container my-5 col-md-6 px-5 py-5" style="border:1px solid black;">
+<div class="container my-5 col-md-6 px-5 py-5" style="border:1px solid black;background: white;">
    <h3 class="mb-5 text-center">Regsiter yourself for Secret Santa</h3>
    <form action="" method="POST" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
 
@@ -96,7 +96,7 @@
       </div>
 
       <div class="row mb-3">
-         <div class="col">
+         <div class="col col-lg-1 mx-auto my-auto">
             {{ form.submit(class_="btn btn-primary") }}
          </div>
       </div>
@@ -106,6 +106,13 @@
       {{ message }}
    </div>
    {% endfor %}
+</div>
+<div class="container-fluid mt-4 text-center">
+   {% if total %}
+   <p style="color:white;">{{ total }} of your colleagues have registered, register now to join them and not miss the fun.</p>
+   {% else %}
+   <p style="color:white;">None of your colleagues have registered, register now to start the fun.</p>
+   {% endif %}
 </div>
 
 {% endblock %}

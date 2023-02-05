@@ -5,13 +5,13 @@
     <div class="row my-3">
         <div class="col text-center">
             {% if current_user.is_authenticated %}
-            <h2>Welcome {{current_user.first_name}}</h2>
+            <h2 style="color:white;">Welcome, {{ current_user.email.split('.')[0].title() }}!</h2>
             {% endif %}
         </div>
     </div>
     <div class="row my-3">
         <div class="col text-center">
-            <h2>Total Participants: {{ total }}</h2>
+            <h2 style="color:white;">Total Participants: {{ total }}</h2>
         </div>
     </div>
     <div class="row my-3 justify-content-center">

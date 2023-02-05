@@ -118,11 +118,11 @@ def register():
         
         downloadable_image, renderable_image = process_image(form.gift_image.data)
         
-        user = User(first_name = form.first_name.data,
-                    last_name = form.last_name.data,
-                    employee_id=form.employee_id.data,
+        user = User(first_name = form.first_name.data.title(),
+                    last_name = form.last_name.data.title(),
+                    employee_id = form.employee_id.data,
                     email = form.email.data,
-                    address = form.address.data,
+                    address = form.address.data.title(),
                     mobile_number = form.mobile_number.data)
         gift = Gift(gift_image_download = downloadable_image,
                     gift_image_render = renderable_image,
@@ -140,7 +140,8 @@ def register():
             
         flash(f'{form.first_name.data.title()} {form.last_name.data.title()} registered successfully. Thank you.', category="success") 
         return redirect(url_for('register'))
-    return render_template('registration.html', form=form)
+    total = len(get_user_details())
+    return render_template('registration.html', form=form, total=total)
 
 
 @app.route('/login', methods=['GET', 'POST'])

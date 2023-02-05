@@ -90,3 +90,11 @@ img {
   bottom: 20px;
   left: 48%;
 }
+
+body {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(45deg, #EAB330, #D5665F, #CA0088);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
