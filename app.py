@@ -31,16 +31,14 @@ login_manager.init_app(app)
 
 
 def process_image(raw_data):
-    ratio = 0.5
     buffer = io.BytesIO() # Create a Bytes IO buffer
     raw_data = Image.open(raw_data)
-    w, h = raw_data.size 
-    resized_image = raw_data.resize((math.floor(w*ratio), math.floor(h*ratio)), Image.Resampling.LANCZOS)
-    resized_image.save(buffer, format="PNG", optimize=True, quality=85)
+    raw_data.save(buffer, format="JPEG", optimize=True, quality=10)
+
     downloadable_data = buffer.getvalue()
     
     resized_image = raw_data.resize((100, 100), Image.Resampling.LANCZOS)
-    resized_image.save(buffer, format="PNG", optimize=True, quality=85)
+    resized_image.save(buffer, format="JPEG", optimize=True, quality=20)
     renderable_data = buffer.getvalue()
     renderable_data = base64.b64encode(renderable_data).decode('ascii')
     
@@ -77,7 +75,7 @@ class User(UserMixin, db.Model):
     address = db.Column(db.Text, nullable=False)
     mobile_number = db.Column(db.BigInteger, unique=True, nullable=False)
     joined_at = db.Column(db.DateTime(), default = datetime.utcnow, index = True)
-    gift = db.relationship('Gift', backref='user', uselist=False)
+    gift = db.relationship('Gift', backref='user', uselist=False, cascade="all, delete")
     
     def __repr__(self):
         return f"{self.employee_id} - {self.email}"
